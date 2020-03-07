@@ -1,0 +1,7 @@
+background:0,0,0
+vegetation:128,0,0
+sign:0,128,0
+signal:128,128,0
+track:0,0,128
+bridge:128,0,128
+sky:0,128,128

@@ -1,1 +1,6 @@
 /data/*
+
+# Ignore images
+*.png
+*.jpg
+*.jpeg
