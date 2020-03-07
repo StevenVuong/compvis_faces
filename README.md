@@ -1,4 +1,4 @@
-# Compvis_playground
+# Compvis Playground
 Incorporate different aspects of computer vision and deep learning, with (improving) engineering practices to learn and showcase as a computer vision repository
 
 #### Current Idea:
@@ -18,3 +18,8 @@ SideGoal:
     -  `/code_samples/sophie_vis_activation_snippet.py`
 -  Fast Style Transfer: https://github.com/lengstrom/fast-style-transfer
 -  Have Separate folder structure for each idea; perhaps they can link in. And feed into/out of a data folder with download instructions (to put into a bash script?)
+
+#### G-Cloud Auth Starter:
+-  Must change gcloud auth logins/outs every time by `gcloud auth login <ENTER_EMAIL_ADDRERSS>`
+-  Check account by `gcloud auth list` and change with `gcloud config set account <ACCOUNT>`
+-  Confirm by running `gcloud auth list` again and `gcloud projects list`
