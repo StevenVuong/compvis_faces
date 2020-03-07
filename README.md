@@ -4,6 +4,11 @@ Incorporate different aspects of computer vision and deep learning, with (improv
 #### Current Idea:
 -  Take input feed of video data
 -  Recognise faces from that video data (face recognition)
+
+    -  https://github.com/davidsandberg/facenet (First Approach)
+    -  Second approach is to use object detection to get a person, extract them then take out their face
+        -  https://medium.com/@somaniswastik/face-recognition-using-tensorflow-pre-trained-model-opencv-91184efa4aaf
+        -  https://colab.research.google.com/github/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb#scrollTo=DWh_1zz6aqxs
 -  Then zoom into face pixel
 -  Increase Resolution:
     -  https://github.com/xinntao/ESRGAN
