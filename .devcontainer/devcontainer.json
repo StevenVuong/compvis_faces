@@ -1,0 +1,11 @@
+{
+	"context": ".",
+	"name": "Tensorflow",
+	"dockerFile": "Dockerfile",
+	"postCreateCommand": "python3 -m pip install -r requirements.txt && gcloud auth configure-docker",
+	"mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+        "source=${localWorkspaceFolder}/.credentials/gcloud,target=/root/.config/gcloud,type=bind,consistency=cached"
+		],
+	"forwardPorts": [6060, 6060]
+}

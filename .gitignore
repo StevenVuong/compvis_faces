@@ -1,6 +1,47 @@
-/data/*
+data/
+.DS_Store
+*.tfrecord
+.idea
+.credentials
+__pycache__/
 
-# Ignore images
-*.png
-*.jpg
-*.jpeg
+# Related to frrozen model
+*.tar.gz
+*.zip
+*/models/*
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.vscode/
+
+*.pyc
