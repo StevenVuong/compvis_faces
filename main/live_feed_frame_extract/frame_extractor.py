@@ -49,6 +49,7 @@ if __name__=="__main__":
     except ValueError:
         print("The Youtube video stream is not live!")
 
+
     # Create frame output directory
     if not os.path.exists(FRAME_SAVE_DIR):
         os.makedirs(FRAME_SAVE_DIR)
@@ -56,28 +57,22 @@ if __name__=="__main__":
 
     play = vPafy.getbest(preftype="mp4")
     cap = cv2.VideoCapture(play.url) 
-    
+
+    # Assign video capture resosltuion
+    cap.set(3, CAPTURE_RESOLUTION_WIDTH)
+    cap.set(4, CAPTURE_RESOLUTION_HEIGHT)
+
     for i in range(NUM_FRAMES_TO_EXTRACT):
 
         ret, frame = cap.read() # Capture frame-by-frame
 
-        # Assign video capture resosltuion
-        ret = cap.set(3, CAPTURE_RESOLUTION_WIDTH)
-        ret = cap.set(4, CAPTURE_RESOLUTION_HEIGHT)
+        frame_name = (f"frame_{i}.jpg")
+        savepath = FRAME_SAVE_DIR + frame_name
+        print(f"Saving {frame_name} ---> {i}/{NUM_FRAMES_TO_EXTRACT}")
 
-        if ret==True:
+        cv2.imwrite(savepath, frame)
 
-            print(f"Processing frame {i}/{NUM_FRAMES_TO_EXTRACT}")
-
-            # Save frames
-            frame_name = "frame_{0}d.jpg".format(i)
-            cv2.imwrite(os.path.join(FRAME_SAVE_DIR, frame_name), frame)
-
-            time.sleep(WAIT_PER_FRAME)
-
-        else:
-            break
-
+        time.sleep(WAIT_PER_FRAME)
 
     cap.release()
 

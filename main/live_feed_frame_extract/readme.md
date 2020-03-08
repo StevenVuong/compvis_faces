@@ -11,7 +11,7 @@ default is Sky News Youtube livestream and 5 frames with 20 second interval
     ```
 -  Running Docker Image with Mounted Data Volume
     ```
-    docker run -v "$(pwd)"/../../data:/usr/src/app/data \
+    docker run -v $(pwd)/../../data:/usr/src/app/data \
     youtube-live-frame-extractor \
     python ./frame_extractor.py
     ```

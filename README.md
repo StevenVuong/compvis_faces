@@ -9,6 +9,7 @@ Incorporate different aspects of computer vision and deep learning, with (improv
     -  Second approach is to use object detection to get a person, extract them then take out their face
         -  https://medium.com/@somaniswastik/face-recognition-using-tensorflow-pre-trained-model-opencv-91184efa4aaf
         -  https://colab.research.google.com/github/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb#scrollTo=DWh_1zz6aqxs
+    -  Anotherr first(and simpler) approach: https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition/ (cv2)
 -  Then zoom into face pixel
 -  Increase Resolution:
     -  https://github.com/xinntao/ESRGAN
