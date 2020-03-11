@@ -29,3 +29,4 @@ SideGoal:
 -  Must change gcloud auth logins/outs every time by `gcloud auth login <ENTER_EMAIL_ADDRERSS>`
 -  Check account by `gcloud auth list` and change with `gcloud config set account <ACCOUNT>`
 -  Confirm by running `gcloud auth list` again and `gcloud projects list`
+-  Set Project with `gcloud config set project my-project`
