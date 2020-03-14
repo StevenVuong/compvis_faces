@@ -1,6 +1,8 @@
 #### Basic Idea: Input Youtube video stream URL and extract faces
 URL and number of frames can be adjusted in `./config.ini`; 
-default is Sky News Youtube livestream and 5 frames with 20 second interval
+Can also adjust the frame capture resolution. As well as a number of variables
+<br>
+Paths right now are relative to running in this dir ../live_feed_face_extract
 
 #### Docker Quickstarter
 
@@ -24,7 +26,16 @@ default is Sky News Youtube livestream and 5 frames with 20 second interval
 Docker Image Filestructure:
 ```
 -  config.ini
+-  libs
+    - log.py
+-  face_detection.py
 -  frame_extractor.py
+-  extract_detect.sh
 -  requirements.txt
 -  data
 ```
+
+Todo:
+-  Add Testing
+-  Improve Filestructure
+-  Be able to pass CLI to frame_extractor/face_detector?

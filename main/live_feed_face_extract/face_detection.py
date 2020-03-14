@@ -153,7 +153,7 @@ def main():
 
         faces_json = detect_face(img)
         logger.info(f"Detected {len(faces_json)} faces in {frame}")
-
+        #save_to_json(faces_json, FACES_JSON_DIR)
 
         for idx,face_json in enumerate(faces_json):
             
