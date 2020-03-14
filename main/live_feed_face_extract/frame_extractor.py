@@ -7,7 +7,7 @@ import time
 import os
 from urllib.error import HTTPError
 import configparser
-
+import logging
 from libs import log
 
 logger = logging.getLogger("Face-Extractor")
@@ -27,6 +27,7 @@ def check_live(vPafy_object: pafy) -> bool:
     """
     Check whether or not a video URL iss a livestream or not 
     """
+    logger.debug("Checeking if Stream is live")
     isLive = False
     if vPafy.duration == '00:00:00': isLive = True
 
@@ -37,6 +38,7 @@ def check_live(vPafy_object: pafy) -> bool:
 def load_video_stram(youtube_stream_url: str) -> pafy:
 
     try:
+        logger.debug(f"Loading Youtube Stream:", youtube_stream_url)
         vPafy = pafy.new(youtube_stream_url)
     
         isLive = check_live(vPafy)
@@ -53,10 +55,11 @@ def load_video_stram(youtube_stream_url: str) -> pafy:
 
 
 def main():
-    logger.info("Starting.")
-    
-    vPafy = load_video_stram(config.get("frame-extract", "LIVESTREAM_VIDEO_URL"))
-    print(type(vPafy))
+    logger.info("Starting Youtube Live Face Detector.")
+
+    vPafy = load_video_stram(
+        config.get("frame-extract", "LIVESTREAM_VIDEO_URL")
+    )
 
     # Create frame output directory
     if not os.path.exists(FRAME_SAVE_DIR):
@@ -71,19 +74,21 @@ def main():
 
     for i in range(NUM_FRAMES_TO_EXTRACT):
 
-        ret, frame = cap.read() # Capture frame-by-frame
-
+        logger.debug(f"Capturing frame {i}/{NUM_FRAMES_TO_EXTRACT}")
+        ret, frame = cap.read()
+        
         frame_name = (f"frame_{i}.jpg")
         savepath = FRAME_SAVE_DIR + frame_name
-        print(f"Saving {frame_name} ---> {i}/{NUM_FRAMES_TO_EXTRACT}")
 
+        logger.info(f"Saving {frame_name} ---> {i}/{NUM_FRAMES_TO_EXTRACT}")
         cv2.imwrite(savepath, frame)
 
+        logger.debug(f"Waiting for for {WAIT_PER_FRAME}s to load next frame")
         time.sleep(WAIT_PER_FRAME)
 
     cap.release()
 
-    print(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
+    logger.info(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
 
     logger.info("Done.")
 
