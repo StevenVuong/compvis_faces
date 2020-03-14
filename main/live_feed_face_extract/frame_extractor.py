@@ -30,14 +30,10 @@ def check_live(vPafy_object: pafy) -> bool:
 
     return isLive
 
+def load_video_stram(youtube_stream_url: str): 
 
-if __name__=="__main__":
-
-    # Load Video Stream
     try:
-        vPafy = pafy.new(
-            config.get("frame-extract", "LIVESTREAM_VIDEO_URL")
-            )
+        vPafy = pafy.new(youtube_stream_url)
     
         isLive = check_live(vPafy)
         print(f"isLive: {isLive}")
@@ -49,11 +45,17 @@ if __name__=="__main__":
     except ValueError:
         print("The Youtube video stream is not live!")
 
+    return vPafy
+
+
+def main():
+    
+    vPafy = load_video_stram(config.get("frame-extract", "LIVESTREAM_VIDEO_URL"))
+    print(type(vPafy))
 
     # Create frame output directory
     if not os.path.exists(FRAME_SAVE_DIR):
         os.makedirs(FRAME_SAVE_DIR)
-
 
     play = vPafy.getbest(preftype="mp4")
     cap = cv2.VideoCapture(play.url) 
@@ -77,5 +79,10 @@ if __name__=="__main__":
     cap.release()
 
     print(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
+
+
+
+if __name__=="__main__":
+    main()
 
 

@@ -1,0 +1,5 @@
+pafy
+youtube_dl
+opencv-python-headless
+mtcnn
+tensorflow==2.0.0
