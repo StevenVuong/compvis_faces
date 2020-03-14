@@ -1,5 +1,7 @@
-# Ref: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_video_display/py_video_display.html
-
+"""
+Extracts frames from youtube live streams
+Ref: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_video_display/py_video_display.html
+"""
 import cv2
 import pafy
 import youtube_dl
@@ -24,6 +26,22 @@ FRAME_SAVE_DIR = config.get("frame-extract", "FRAME_SAVE_DIR")
 
 
 def load_video_stram(youtube_stream_url: str):
+    """
+    Loads youtube live stream and returns vPafy object
+
+    Args: 
+        youtube_stream_url(str)
+
+    Returns: 
+        vPafy: vpafy object
+
+    Raises:
+        ValueError: If youtube stream is not live, then throws an error
+        HTTPError: Unable to fulfill HTTP request, errcode is outputted
+    
+    ToDo: 
+        What if non-youtube URL?
+    """
 
     try:
         logger.debug(f"Loading Youtube Stream:", youtube_stream_url)
@@ -83,6 +101,7 @@ def main():
     cap.release()
 
     logger.info(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
+
 
 if __name__=="__main__":
 
