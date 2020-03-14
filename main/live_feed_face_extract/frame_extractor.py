@@ -8,9 +8,13 @@ import os
 from urllib.error import HTTPError
 import configparser
 
+from libs import log
+
+logger = logging.getLogger("Face-Extractor")
 
 config = configparser.ConfigParser()
 config.read("./config.ini")
+
 
 NUM_FRAMES_TO_EXTRACT = config.getint("frame-extract", "NUM_FRAMES_TO_EXTRACT")
 WAIT_PER_FRAME = config.getint("frame-extract", "WAIT_PER_FRAME")
@@ -30,7 +34,7 @@ def check_live(vPafy_object: pafy) -> bool:
 
     return isLive
 
-def load_video_stram(youtube_stream_url: str): 
+def load_video_stram(youtube_stream_url: str) -> pafy:
 
     try:
         vPafy = pafy.new(youtube_stream_url)
@@ -49,6 +53,7 @@ def load_video_stram(youtube_stream_url: str):
 
 
 def main():
+    logger.info("Starting.")
     
     vPafy = load_video_stram(config.get("frame-extract", "LIVESTREAM_VIDEO_URL"))
     print(type(vPafy))
@@ -80,9 +85,16 @@ def main():
 
     print(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
 
-
+    logger.info("Done.")
 
 if __name__=="__main__":
-    main()
 
+    logger.setLevel(logging.INFO)
+    log.add_stream_handler(logger)
 
+    try:
+        main()
+
+    except Exception as error:
+        logger.exception("Unhandled exception:")
+        raise error
