@@ -27,34 +27,34 @@ def check_live(vPafy_object: pafy) -> bool:
     """
     Check whether or not a video URL iss a livestream or not 
     """
-    logger.debug("Checeking if Stream is live")
-    isLive = False
-    if vPafy.duration == '00:00:00': isLive = True
 
-    print (f"Stream Title: {vPafy.title}")
 
-    return isLive
-
-def load_video_stram(youtube_stream_url: str) -> pafy:
+def load_video_stram(youtube_stream_url: str):
 
     try:
         logger.debug(f"Loading Youtube Stream:", youtube_stream_url)
         vPafy = pafy.new(youtube_stream_url)
-    
-        isLive = check_live(vPafy)
-        print(f"isLive: {isLive}")
+
+        logger.debug("Checeking if Stream is live")
+
+        isLive = False
+        if vPafy.duration == '00:00:00': isLive = True
+            
+        print (f"Stream Title: {vPafy.title}")
+        logger.debug(f"Is Steam Live: {isLive}")
 
         if not isLive: raise ValueError
+
+        return vPafy
 
     except HTTPError as err:
         print("HTTP Error", err.errno)
     except ValueError:
         print("The Youtube video stream is not live!")
-
-    return vPafy
-
+    
 
 def main():
+
     logger.info("Starting Youtube Live Face Detector.")
 
     vPafy = load_video_stram(

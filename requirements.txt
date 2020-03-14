@@ -1,9 +1,0 @@
-tensorflow==1.15.0
-numpy
-matplotlib
-PrettyTable
-Pillow
-opencv-python-headless
-jupyter
-Cython
-tensorboard
