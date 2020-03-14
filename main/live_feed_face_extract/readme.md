@@ -15,7 +15,7 @@ Paths right now are relative to running in this dir ../live_feed_face_extract
     ```
     docker run -v $(pwd)/../../data:/usr/src/app/data \
     youtube-live-face-extractor \
-    python ./frame_extractor.py
+    /bin/bash ./extract_detect.sh
     ```
 -  To Clean Up: 
     ```
