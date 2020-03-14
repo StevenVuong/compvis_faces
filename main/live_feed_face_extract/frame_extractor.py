@@ -10,7 +10,7 @@ import configparser
 import logging
 from libs import log
 
-logger = logging.getLogger("Face-Extractor")
+logger = logging.getLogger("Frame-Extractor")
 
 config = configparser.ConfigParser()
 config.read("./config.ini")
@@ -21,12 +21,6 @@ WAIT_PER_FRAME = config.getint("frame-extract", "WAIT_PER_FRAME")
 CAPTURE_RESOLUTION_HEIGHT= config.getint("frame-extract", "CAPTURE_RESOLUTION_HEIGHT")
 CAPTURE_RESOLUTION_WIDTH = config.getint("frame-extract", "CAPTURE_RESOLUTION_WIDTH")
 FRAME_SAVE_DIR = config.get("frame-extract", "FRAME_SAVE_DIR")
-
-
-def check_live(vPafy_object: pafy) -> bool:
-    """
-    Check whether or not a video URL iss a livestream or not 
-    """
 
 
 def load_video_stram(youtube_stream_url: str):
@@ -55,7 +49,7 @@ def load_video_stram(youtube_stream_url: str):
 
 def main():
 
-    logger.info("Starting Youtube Live Face Detector.")
+    logger.info("Starting Youtube Live Frame Extractor.")
 
     vPafy = load_video_stram(
         config.get("frame-extract", "LIVESTREAM_VIDEO_URL")
@@ -89,8 +83,6 @@ def main():
     cap.release()
 
     logger.info(f"Extracted {NUM_FRAMES_TO_EXTRACT} frames successfully")
-
-    logger.info("Done.")
 
 if __name__=="__main__":
 
