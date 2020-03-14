@@ -2,20 +2,17 @@
 Incorporate different aspects of computer vision and deep learning, with (improving) engineering practices to learn and showcase as a computer vision repository
 
 #### Current Idea:
--  Take input feed of video data
--  Recognise faces from that video data (face recognition)
-
-    -  https://github.com/davidsandberg/facenet (First Approach)
-    -  Second approach is to use object detection to get a person, extract them then take out their face
-        -  https://medium.com/@somaniswastik/face-recognition-using-tensorflow-pre-trained-model-opencv-91184efa4aaf
-        -  https://colab.research.google.com/github/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb#scrollTo=DWh_1zz6aqxs
-    -  Anotherr first(and simpler) approach: https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition/ (cv2)
--  Then zoom into face pixel
--  Increase Resolution:
+-  Take input feed of video data and extract frames
+-  Detect faces within the frames (face detection) and crop faces out
+-  Increase Resolution of the cropped faces:
     -  https://github.com/xinntao/ESRGAN
     -  GAN? https://www.tensorflow.org/tutorials/generative/pix2pix
     -  https://github.com/idealo/image-super-resolution 
+-  Determine whose face it is (face recognition) 
+    -  Train by augmenting input data of a single person (training)
+    -  Single image of each news presenter (setup); augment then run
 -  Face sentiment analysis
+-  Do analysis matching of face and sentiment? bwahaha!
 
 SideGoal:
 
