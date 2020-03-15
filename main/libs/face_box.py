@@ -10,7 +10,6 @@ https://github.com/ipazc/mtcnn
 """
 from mtcnn import MTCNN
 import cv2
-import configparser
 import logging
 from libs import log
 import os
@@ -18,18 +17,6 @@ import json
 import numpy as np
 
 logger = logging.getLogger("Face-Detector")
-
-config = configparser.ConfigParser()
-config.read("./config.ini")
-
-FRAMES_DIR = config.get("frame-extract", "FRAME_SAVE_DIR")
-FACES_JSON_DIR = config.get("face-detect", "JSON_OUTPUT_DIR")
-FACE_CONFIDENCE_THERSHOLD = config.getfloat(
-    "face-detect", "FACE_CONFIDENCE_THRESHOLD"
-    )
-FACE_OUTPUT_DIR = config.get("face-detect", "FACE_OUTPUT_DIR")
-OUTPUT_SIZE = config.getint("face-detect", "OUTPUT_SIZE")
-
 
 def detect_face(img: np.ndarray) -> list:
     """
@@ -136,54 +123,3 @@ class FaceBbox:
             )
 
         return cropped_face
-
-
-def main():
-
-    logger.info("Starting Frame Face Detection.")
-
-    for frame in os.listdir(FRAMES_DIR):
-
-        frame_name = frame.split(".")[0]
-        frame_path = os.path.join(FRAMES_DIR, frame)
-    
-        logger.debug(f"Loading {frame_path}")
-        # cv2 automatically loads as BGR, must invert
-        img = cv2.cvtColor(cv2.imread(frame_path), cv2.COLOR_BGR2RGB)
-
-        faces_json = detect_face(img)
-        logger.info(f"Detected {len(faces_json)} faces in {frame}")
-        #save_to_json(faces_json, FACES_JSON_DIR)
-
-        for idx,face_json in enumerate(faces_json):
-            
-            logger.debug("Creating Face class")
-            face = FaceBbox(face_json)
-
-            if face.confidence < FACE_CONFIDENCE_THERSHOLD:
-                logger.info(f"Face {frame_name}_{idx} confidence too low!")
-                continue
-            
-            logger.debug(f"Extracting Face {idx} from {frame_name}")
-            cropped_face = face.extract_face(img)
-
-            extracted_frames_path = os.path.join(
-                FACE_OUTPUT_DIR, frame_name+f"_{idx}.jpg"
-            )
-            logger.debug("Saving Extracted Frame")
-            save_img(cropped_face, extracted_frames_path)
-
-    logger.info("Completed Face Detection")
-
-
-if __name__=="__main__":
-
-    logger.setLevel(logging.INFO)
-    log.add_stream_handler(logger)
-
-    try:
-        main()
-
-    except Exception as error:
-        logger.exception("Unhandled exception:")
-        raise error

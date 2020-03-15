@@ -1,6 +1,6 @@
 pafy
 youtube_dl
-mtcnn
 
+mtcnn
 opencv-python-headless
 tensorflow==2.0.0
