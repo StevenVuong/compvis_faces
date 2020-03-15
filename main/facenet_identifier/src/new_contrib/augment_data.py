@@ -7,8 +7,9 @@ Ref: https://www.tensorflow.org/tutorials/images/data_augmentation
 """
 from PIL import Image
 
+# Super hacky way of doing thiss..
 import sys
-sys.path.append("..")
+sys.path.append("../../..")
 from libs.face_box import detect_face, FaceBbox
 
 #facebbox_obj = FaceBbox(detect_face(img))
