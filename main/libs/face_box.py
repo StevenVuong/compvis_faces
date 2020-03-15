@@ -17,6 +17,7 @@ import json
 import numpy as np
 
 logger = logging.getLogger("Face-Detector")
+OUTPUT_SIZE=160
 
 def detect_face(img: np.ndarray) -> list:
     """
@@ -123,3 +124,16 @@ class FaceBbox:
             )
 
         return cropped_face
+
+
+def save_img(img: np.ndarray, save_path: str):
+    """
+    Saves image list file 
+    Args:
+        img(np.ndarray)
+        save_path(str)
+    """
+    if not os.path.exists(os.path.dirname(save_path)):
+        os.makedirs(os.path.dirname(save_path))
+
+    cv2.imwrite(save_path, img)
