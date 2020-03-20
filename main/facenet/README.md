@@ -22,7 +22,7 @@ accordingly
     -  Align training and test images (requires GPU to run):
     ```
     python ./src/align/align_dataset_mtcnn.py \
-    ../../data/facenet/images/train_raw \
+    ../../data/facenet/images/train_augmented \
     ../../data/facenet/images/train_aligned \
     --image_size 160
     ```
