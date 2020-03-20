@@ -41,8 +41,8 @@ accordingly
     ```
     -  Match images from test_aligned to people trained in classifier
     ```
-    python ../../data/facenet/src/classifier.py CLASSIFY \
-    ../../data/facenet/data/images/test_aligned/ \
+    python ./src/classifier.py CLASSIFY \
+    ../../data/facenet/images/test_aligned/ \
     ../../data/facenet/models/20180402-114759/20180402-114759.pb \
     ../../data/facenet/models/20180402-114759/my_classifier.pkl
     ```
