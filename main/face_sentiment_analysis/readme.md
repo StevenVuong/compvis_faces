@@ -9,8 +9,13 @@ This is a supervised learning task to classify faces into 6 emotions:
 -  Surprise
 -  Neutral
 
-So we will try to build a UNet with Skip connections to achieve this; and show
+So we will try to build a UNet (not so great? UNet usually for semseg.. loll)
+with Skip connections to achieve this; and show
 activation heat map layers in order to achieve this task.
+
+### Quickstart
+-  `python3 -m pip install -r requirements.txt`
+-  `python main.py`
 
 
 ### References:
