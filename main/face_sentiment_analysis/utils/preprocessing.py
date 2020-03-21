@@ -41,22 +41,20 @@ def main():
 
     X = np.asarray(X)
     X = np.expand_dims(X, -1)
+    logger.info(f"Number of examples in dataset: {str(len(X))}")
+    logger.info(f"Number of Features: {str(len(X[0]))}")
 
     # Get labels for training (one-hot encoded)
     y = pd.get_dummies(data['emotion']).values
-    print(y[0])
-
-    print(X.shape)
-
-# #storing them using numpy
-# np.save('fdataX', X)
-# np.save('flabels', y)
-
-    logger.info("Preprocessing Done")
-    logger.info(f"Number of examples in dataset: {str(len(X))}")
-    logger.info(f"Number of Features: {str(len(X[0]))}")
     logger.info(f"Number of Labels: {str(len(y[0]))}")
-    # print("X,y stored in fdataX.npy and flabels.npy respectively")
+
+    logger.info("Preprocessing done, saving as .npy")
+    np.save(os.path.join(BASE_DIR, 'X'), X)
+    np.save(os.path.join(BASE_DIR, 'y'), y)
+    logger.info(f"X, y stored in {BASE_DIR}")
+
+    logger.info("Done.")
+
 
 if __name__=="__main__":
 
