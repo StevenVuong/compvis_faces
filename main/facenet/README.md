@@ -22,8 +22,8 @@ accordingly
     -  Align training and test images (requires GPU to run):
     ```
     python ./src/align/align_dataset_mtcnn.py \
-    ../../data/facenet/images/train_augmented \
-    ../../data/facenet/images/train_aligned \
+    ../../data/facenet/images/train_augmented_isr \
+    ../../data/facenet/images/train_aligned_isr \
     --image_size 160
     ```
     ```
@@ -35,16 +35,16 @@ accordingly
     -  Train classifier on imagess
     ```
     python ./src/classifier.py TRAIN \
-    ../../data/facenet/images/train_aligned/ \
+    ../../data/facenet/images/train_aligned_isr/ \
     ../../data/facenet/models/20180402-114759/20180402-114759.pb \
-    ../../data/facenet/models/20180402-114759/my_classifier.pkl
+    ../../data/facenet/models/20180402-114759/my_classifier_isr.pkl
     ```
     -  Match images from test_aligned to people trained in classifier
     ```
     python ./src/classifier.py CLASSIFY \
-    ../../data/facenet/images/test_aligned/ \
+    ../../data/facenet/images/test_aligned_isr/ \
     ../../data/facenet/models/20180402-114759/20180402-114759.pb \
-    ../../data/facenet/models/20180402-114759/my_classifier.pkl
+    ../../data/facenet/models/20180402-114759/my_classifier_isr.pkl
     ```
 
 

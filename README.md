@@ -4,10 +4,7 @@ Incorporate different aspects of computer vision and deep learning, with (improv
 #### Current Idea:
 -  Take input feed of video data and extract frames
 -  Detect faces within the frames (face detection) and crop faces out
--  Increase Resolution of the cropped faces:
-    -  https://github.com/xinntao/ESRGAN
-    -  GAN? https://www.tensorflow.org/tutorials/generative/pix2pix
-    -  https://github.com/idealo/image-super-resolution 
+-  Increase Resolution of the cropped faces (idealo: image-super-resolution)
 -  Determine whose face it is (face recognition) 
     -  Train by augmenting input data of a single person (training)
     -  Single image of each news presenter (setup); augment then run
