@@ -20,4 +20,5 @@ activation heat map layers in order to achieve this task.
 
 ### References:
 -  Dataset Provider: https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data
--  Helper: https://github.com/gitshanks/fer2013
+-  Helper: https://github.com/gitshanks/fer2013 To work with Numpy Array
+-  Image Data Generator Method: https://raw.githubusercontent.com/atulapra/Emotion-detection/master/src/emotions.py

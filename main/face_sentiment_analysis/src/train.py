@@ -7,19 +7,24 @@ import cv2
 import os
 
 # Tensorflow Imports
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import tensorflow as tf
+
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
+from keras.losses import categorical_crossentropy
+from keras.optimizers import Adam
+from keras.regularizers import l2
+from keras.callbacks import ReduceLROnPlateau, TensorBoard, EarlyStopping, ModelCheckpoint
+from keras.models import load_model
+from keras.models import model_from_json
 
 # Libs from other dirs
 import sys
 sys.path.append("../..")
 from libs import log
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("TRAIN")
 
 config = configparser.ConfigParser()
 config.read("../config.ini")
@@ -35,20 +40,14 @@ def main():
 
     logger.info("Starting " + __name__)
 
-    train_datagen = ImageDataGenerator(
-        rescale=1/.255,
-        horizontal_flip=True
-    )
+    logger.info("Loading Data")
+    X = np.load(os.path.join(BASE_DIR, "X.npy"))
+    y = np.load(os.path.join(BASE_DIR, 'y.npy'))
 
-    # Something to look into
-    # https://keras.io/preprocessing/image/
-    train_generator = train_datagen.flow_from_directory(
-        TRAIN_CSVPATH,
-        target_size=(48,48),
-        batch_size=BATCH_SIZE,
-        color_mode="grayscale",
-        class_mode="categorical"
-    )
+
+    
+    logger.info(f"Training Size: {len(y_train)}, Test Size: {len(y_test)}")
+
 
     print("Hello")
 

@@ -1,9 +1,14 @@
+"""
+Load the Image dataset; split into train and test sets; save as images
+"""
 import pandas as pd
 import numpy as np
 import os
 import configparser
 import logging
-from progressbar import ProgressBar, Percentage, Bar
+from PIL import Image
+from sklearn.model_selection import train_test_split
+from progressbar import ProgressBar
 
 config = configparser.ConfigParser()
 config.read("../config.ini")
@@ -17,41 +22,64 @@ logger = logging.getLogger("Preprocessing")
 
 
 BASE_DIR = config["emotion-classify"]["DATA_BASEPATH"]
-DATA_CSVPATH = os.path.join(BASE_DIR, "fer2013/fer2013.csv")
+TRAIN_TEST_SPLIT = config.getfloat("emotion-classify", "TRAIN_TEST_SPLIT")
 WIDTH, HEIGHT = np.repeat(
     config.getint("emotion-classify", "IMG_WIDTH_HEIGHT"), 
     2)
+IMAGE_SAVE_DIR = os.path.join(BASE_DIR, "images/")
+DATA_CSVPATH = os.path.join(BASE_DIR, "fer2013/fer2013.csv")
 
 
 def main():
 
     logger.info("Starting Preprocessing")
 
-    data = pd.read_csv(DATA_CSVPATH)
-    pixels_lists = data['pixels'].tolist()
+    if not os.path.exists(IMAGE_SAVE_DIR):
+        os.makedirs(os.path.join(IMAGE_SAVE_DIR, "train"))
+        os.makedirs(os.path.join(IMAGE_SAVE_DIR, "test"))
 
-    # Get features for training
-    X = []
-    pbar = ProgressBar(widgets=[Percentage(), Bar(">")])
-    for pixels_list in pbar(pixels_lists):
+    logger.info("Loading Data")
+
+    data = pd.read_csv(DATA_CSVPATH)
+
+    pixels_lists = data["pixels"].values
+    y = pd.get_dummies(data['emotion']).values
+
+    logger.info(f"Number of Samples in dataset: {len(pixels_lists)}")
+    logger.info(f"Number of Labels: {len(y[0])}")
+
+    logger.info("Splitting data into train and test sets")
+    pixels_lists_train, pixels_lists_test, y_train, y_test = train_test_split(
+        pixels_lists, y, test_size=TRAIN_TEST_SPLIT)
+
+    # Save y-outputs
+    np.save(os.path.join(IMAGE_SAVE_DIR, "train", "y_train.npy"), y_train)
+    np.save(os.path.join(IMAGE_SAVE_DIR, "test", "y_test.npy"), y_test)
+
+    pbar = ProgressBar()
+    logger.info("Converting and Saving Training Images")
+    for idx, pixels_list in pbar(enumerate(pixels_lists_train)):
+
         # Parse string into xy array
         xx = [int(pixels_list) for pixels_list in pixels_list.split(' ')]
         xx = np.asarray(xx).reshape(WIDTH, HEIGHT)
-        X.append(xx.astype('float32'))
 
-    X = np.asarray(X)
-    X = np.expand_dims(X, -1)
-    logger.info(f"Number of examples in dataset: {str(len(X))}")
-    logger.info(f"Number of Features: {str(len(X[0]))}")
+        # Save as Image
+        im = Image.fromarray(xx.astype("uint8"))
+        im.save(f"{IMAGE_SAVE_DIR}/train/thumb_{idx:04d}.png")
 
-    # Get labels for training (one-hot encoded)
-    y = pd.get_dummies(data['emotion']).values
-    logger.info(f"Number of Labels: {str(len(y[0]))}")
+    pbar = ProgressBar()
+    logger.info("Converting and Saving Test Images")
+    for idx, pixels_list in pbar(enumerate(pixels_lists_test)):
 
-    logger.info("Preprocessing done, saving as .npy")
-    np.save(os.path.join(BASE_DIR, 'X'), X)
-    np.save(os.path.join(BASE_DIR, 'y'), y)
-    logger.info(f"X, y stored in {BASE_DIR}")
+        # Parse string into xy array
+        xx = [int(pixels_list) for pixels_list in pixels_list.split(' ')]
+        xx = np.asarray(xx).reshape(WIDTH, HEIGHT)
+
+        # Save as Image
+        im = Image.fromarray(xx.astype("uint8"))
+        im.save(f"{IMAGE_SAVE_DIR}/test/thumb_{idx:04d}.png")
+
 
     logger.info("Done.")
 
