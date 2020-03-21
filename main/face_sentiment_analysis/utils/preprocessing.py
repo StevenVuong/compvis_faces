@@ -50,7 +50,9 @@ def main():
 
     logger.info("Splitting data into train and test sets")
     pixels_lists_train, pixels_lists_test, y_train, y_test = train_test_split(
-        pixels_lists, y, test_size=TRAIN_TEST_SPLIT)
+        pixels_lists, y, train_size=TRAIN_TEST_SPLIT)
+
+    logger.info(f"Training Size: {len(y_train)}, Test Size: {len(y_test)}")
 
     # Save y-outputs
     np.save(os.path.join(IMAGE_SAVE_DIR, "train", "y_train.npy"), y_train)

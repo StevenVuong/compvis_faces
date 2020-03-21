@@ -41,12 +41,11 @@ def main():
     logger.info("Starting " + __name__)
 
     logger.info("Loading Data")
-    X = np.load(os.path.join(BASE_DIR, "X.npy"))
-    y = np.load(os.path.join(BASE_DIR, 'y.npy'))
+    y_train = np.load(os.path.join(BASE_DIR, 'y.npy'))
+    y_test = np.load(os.path.join(BASE_DIR, 'y.npy'))
 
-
-    
-    logger.info(f"Training Size: {len(y_train)}, Test Size: {len(y_test)}")
+    ## Make Data Generators... Etc..
+    # Train on test images for now
 
 
     print("Hello")
