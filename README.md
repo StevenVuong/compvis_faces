@@ -8,8 +8,7 @@ Incorporate different aspects of computer vision and deep learning, with (improv
 -  Determine whose face it is (face recognition) 
     -  Train by augmenting input data of a single person (training)
     -  Single image of each news presenter (setup); augment then run
--  Face sentiment analysis
--  Do analysis matching of face and sentiment? bwahaha!
+-  Face sentiment analysis -> Building a regular CNN
 
 SideGoal:
 

@@ -116,6 +116,12 @@ def main():
         validation_steps=train_generator.samples // BATCH_SIZE,
         callbacks = None)
 
+    #  Need to exporrt model and histsory
+    #  Then have history plot in another function
+    #  And a predict class as well as evaluate function
+    #  Then do some heatmap vissualisation to see how our CNN performs
+    #  Todo: Add callbacks use config.yaml instead of ini
+
     print("Done")
 
 
