@@ -11,10 +11,8 @@ import matplotlib.pyplot as plt
 # Tensorflow Imports
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Dense, Dropout, Flatten, MaxPooling2D, Conv2D
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # Libs from other dirs
