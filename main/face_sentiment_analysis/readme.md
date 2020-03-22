@@ -22,3 +22,4 @@ activation heat map layers in order to achieve this task.
 -  Dataset Provider: https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data
 -  Helper: https://github.com/gitshanks/fer2013 To work with Numpy Array
 -  Image Data Generator Method: https://raw.githubusercontent.com/atulapra/Emotion-detection/master/src/emotions.py
+-  Medium Article: https://medium.com/@vijayabhaskar96/tutorial-image-classification-with-keras-flow-from-directory-and-generators-95f75ebe5720

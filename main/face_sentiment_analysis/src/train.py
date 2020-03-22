@@ -32,7 +32,6 @@ WIDTH, HEIGHT = np.repeat(
 model = cnn_model()
 
 
-
 def main():
 
     logger.info("Starting " + __name__)
@@ -73,15 +72,22 @@ def main():
         steps_per_epoch = train_generator.samples // BATCH_SIZE,
         epochs = NUM_EPOCH,
         verbose = 1,
-        validation_data=val_generator,
-        validation_steps=train_generator.samples // BATCH_SIZE,
+        validation_data = val_generator,
+        validation_steps = val_generator.samples // BATCH_SIZE,
         callbacks = None)
 
-    #  Need to exporr model and histsory (Make Callback?)
+    logger.info("Training Completed!")
+    results = model.evaluate_generator(
+        generator = val_generator,
+        steps = val_generator.samples)
+    logger.info('test loss, test acc:', results)
+
+    #  Need to export model and histsory (Make Callback?)
     #  Then have history plot in another function; Save Plot Image somewhere
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
     #  Todo: Add callbacks use config.yaml instead of ini
+    #  Be able to call tensorboard during training?
 
     print("Done")
 
