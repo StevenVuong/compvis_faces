@@ -31,27 +31,34 @@ BASE_DIR = config["emotion-classify"]["DATA_BASEPATH"]
 TRAIN_DIR = os.path.join(BASE_DIR, "images", "train")
 TEST_DIR = os.path.join(BASE_DIR, "images", "test")
 
-# BATCH_SIZE = config.getint("emotion-classify", "BATCH_SIZE")
-# NUM_EPOCH = config.getint("emotion-classify", "NUM_EPOCH")
-BATCH_SIZE = 32
-NUM_EPOCH = 2
+BATCH_SIZE = config.getint("emotion-classify", "BATCH_SIZE")
+NUM_EPOCH = config.getint("emotion-classify", "NUM_EPOCH")
 WIDTH, HEIGHT = np.repeat(
     config.getint("emotion-classify", "IMG_WIDTH_HEIGHT"), 
     2)
     
-    
+
 def tf_model():
 
     model = Sequential()
 
-    model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
-    model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+    model.add(Conv2D(16, kernel_size=(2, 2), activation='relu', input_shape=(48,48,1)))
+    model.add(Conv2D(16, kernel_size=(2, 2), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
-    model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+    model.add(Conv2D(32, kernel_size=(2, 2), activation='relu'))
+    model.add(Conv2D(32, kernel_size=(2, 2), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, kernel_size=(2, 2), activation='relu'))
+    model.add(Conv2D(64, kernel_size=(2, 2), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(256, kernel_size=(2, 2), activation='relu'))
+    model.add(Conv2D(256, kernel_size=(2, 2), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
@@ -63,6 +70,7 @@ def tf_model():
         loss='categorical_crossentropy',
         optimizer=Adam(lr=0.0001, decay=1e-6),
         metrics=['accuracy'])
+
     return model
 
 
@@ -84,6 +92,19 @@ def main():
         shuffle=True
     )
 
+    val_datagen = ImageDataGenerator(
+        rescale=1./255)
+
+    logger.info("Creating Val Generator")
+    val_generator = val_datagen.flow_from_directory(
+        TEST_DIR,
+        target_size=(WIDTH, HEIGHT),
+        batch_size=BATCH_SIZE,
+        color_mode="grayscale",
+        class_mode="categorical",
+        shuffle=True
+    )
+
     logger.info("Loading TF Model")
     model = tf_model()
 
@@ -93,6 +114,8 @@ def main():
         steps_per_epoch = train_generator.samples // BATCH_SIZE,
         epochs = NUM_EPOCH,
         verbose = 1,
+        validation_data=val_generator,
+        validation_steps=train_generator.samples // BATCH_SIZE,
         callbacks = None)
 
     print("Done")
