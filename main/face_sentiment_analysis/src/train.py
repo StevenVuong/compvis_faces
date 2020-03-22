@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import configparser
 import cv2
+import datetime
 import os
 
 # Tensorflow Imports
@@ -83,6 +84,16 @@ def plot_model_history(model_history):
     fig.savefig('plot.png')
     plt.show()
 
+
+class MyCustomCallback(tf.keras.callbacks.Callback):
+
+  def on_train_batch_begin(self, batch, logs=None):
+    print('Training: batch {} begins at {}'.format(batch, datetime.datetime.now().time()))
+
+  def on_train_batch_end(self, batch, logs=None):
+    print('Training: batch {} ends at {}'.format(batch, datetime.datetime.now().time()))
+
+
 def main():
 
     logger.info("Starting " + __name__)
@@ -104,19 +115,21 @@ def main():
         target_size=(WIDTH, HEIGHT),
         batch_size=BATCH_SIZE,
         color_mode="grayscale",
-        class_mode="categorical"
+        class_mode="categorical",
+        shuffle=True
     )
 
     model = tf_model()
     print(model.summary())
     print("Train Generator")
     model_info = model.fit_generator(
-        datagen.flow(
-            train_generator, 
-            y_train, 
-            batch_size=5),
+        generator=train_generator,
         steps_per_epoch=len(X_train) / 32, 
-        epochs=1)
+        epochs=1,
+        verbose=1,
+        callbacks=[MyCustomCallback()])
+
+    print("done")
 
     plot_model_history(model_info)
 
