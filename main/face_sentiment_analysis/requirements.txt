@@ -6,3 +6,4 @@ pandas
 progressbar2
 scikit-learn
 Pillow
+matplotlib
