@@ -1,19 +1,13 @@
 # Standard Imports
 import logging
 import numpy as np
-import argparse
 import configparser
-import cv2
-import datetime
 import os
-import matplotlib.pyplot as plt
 
 # Tensorflow Imports
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten, MaxPooling2D, Conv2D
-from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from model import cnn_model
 
 # Libs from other dirs
 import sys
@@ -35,41 +29,8 @@ WIDTH, HEIGHT = np.repeat(
     config.getint("emotion-classify", "IMG_WIDTH_HEIGHT"), 
     2)
     
+model = cnn_model()
 
-def tf_model():
-
-    model = Sequential()
-
-    model.add(Conv2D(16, kernel_size=(2, 2), activation='relu', input_shape=(48,48,1)))
-    model.add(Conv2D(16, kernel_size=(2, 2), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(32, kernel_size=(2, 2), activation='relu'))
-    model.add(Conv2D(32, kernel_size=(2, 2), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(64, kernel_size=(2, 2), activation='relu'))
-    model.add(Conv2D(64, kernel_size=(2, 2), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(256, kernel_size=(2, 2), activation='relu'))
-    model.add(Conv2D(256, kernel_size=(2, 2), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Flatten())
-    model.add(Dense(1024, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(7, activation='softmax'))
-    model.compile(
-        loss='categorical_crossentropy',
-        optimizer=Adam(lr=0.0001, decay=1e-6),
-        metrics=['accuracy'])
-
-    return model
 
 
 def main():
@@ -103,7 +64,7 @@ def main():
         shuffle=True
     )
 
-    logger.info("Loading TF Model")
+    logger.info("Loading TF CNN Model")
     model = tf_model()
 
     logger.info("Training Model")
@@ -116,8 +77,8 @@ def main():
         validation_steps=train_generator.samples // BATCH_SIZE,
         callbacks = None)
 
-    #  Need to exporrt model and histsory
-    #  Then have history plot in another function
+    #  Need to exporr model and histsory (Make Callback?)
+    #  Then have history plot in another function; Save Plot Image somewhere
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
     #  Todo: Add callbacks use config.yaml instead of ini

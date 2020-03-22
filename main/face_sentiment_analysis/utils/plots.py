@@ -33,3 +33,5 @@ def plot_model_history(model_history):
     axs[1].legend(['train'], loc='best')
     # fig.savefig('plot.png')
     plt.show()
+
+    ## Add Saveplot
