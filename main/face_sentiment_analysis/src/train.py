@@ -119,12 +119,14 @@ def main():
         shuffle=True
     )
 
+    ### To check on; may have to move article;
+    ## Change directorry strucutre!
+    # To write..
     model = tf_model()
-    print(model.summary())
     print("Train Generator")
     model_info = model.fit_generator(
         generator=train_generator,
-        steps_per_epoch=len(X_train) / 32, 
+        steps_per_epoch=len(os.listdir(TRAIN_DIR))-1 / 32, 
         epochs=1,
         verbose=1,
         callbacks=[MyCustomCallback()])
