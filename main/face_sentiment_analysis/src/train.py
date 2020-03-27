@@ -70,9 +70,9 @@ def main():
         lambda epoch: 1e-6 * 10**(epoch / 30))
     savepath_ckpt ="gs://compvis_playground/face_sentiment/images/checkpoint/model-{epoch:02d}-{val_accuracy:.2f}.hdf5"
     checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        savepath_ckpt, monitor='val_accuracy', verbose=1,
+        savepath_ckpt, monitor='accuracy', verbose=1,
         save_best_only=False, save_weights_only=False,
-        save_frequency=1)
+        save_frequency="epoch")
     
     logger.info("Training Model")
     history = model.fit_generator(
