@@ -3,6 +3,7 @@ import logging
 import numpy as np
 import configparser
 import os
+import pandas as pd
 
 # Tensorflow Imports
 import tensorflow as tf
@@ -65,14 +66,9 @@ def main():
     model = cnn_model()
 
     # Set Callbacks here
-    early_stopping = tf.keras.callbacks.EarlyStopping(patience=20, monitor='accuracy')
+    early_stopping = tf.keras.callbacks.EarlyStopping(patience=20, monitor='val_acc')
     lr_schedule = tf.keras.callbacks.LearningRateScheduler(
         lambda epoch: 1e-6 * 10**(epoch / 30))
-    savepath_ckpt ="gs://compvis_playground/face_sentiment/images/checkpoint/model-{epoch:02d}-{val_accuracy:.2f}.hdf5"
-    checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-        savepath_ckpt, monitor='accuracy', verbose=1,
-        save_best_only=False, save_weights_only=False,
-        save_frequency="epoch")
     
     logger.info("Training Model")
     history = model.fit_generator(
@@ -82,15 +78,27 @@ def main():
         verbose = 1,
         validation_data = val_generator,
         validation_steps = val_generator.samples // BATCH_SIZE,
-        callbacks = [early_stopping, lr_schedule, checkpoint_callback])
+        callbacks = [early_stopping, lr_schedule])
 
     logger.info("Training Completed!")
+
+    logger.info("Saving Model")
+    model.save("./model.h5")
+
+    logger.info("Saving History")
+    pd.DataFrame.from_dict(history.history).to_csv('./history.csv',index=False)
+
+    model.save("gs://compvis_playground/face_sentiment/model.h5")
+    pd.DataFrame.from_dict(history.history).to_csv(
+        'gs://compvis_playground/face_sentiment/history.csv',index=False)
+
+    logger.info("Evaluating Results")
     results = model.evaluate_generator(
         generator = val_generator,
         steps = val_generator.samples)
     logger.info('test loss, test acc:', results)
 
-    #  Need to export model and histsory (Make Callback?)
+    #  Savees modell; to test: save to GCS?
     #  Then have history plot in another function; Save Plot Image somewhere
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
