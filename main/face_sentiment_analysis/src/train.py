@@ -65,7 +65,7 @@ def main():
     model = cnn_model()
 
     # Set Callbacks here
-    early_stopping = tf.keras.callbacks.EarlyStopping(patience=20)
+    early_stopping = tf.keras.callbacks.EarlyStopping(patience=20, monitor='accuracy')
     lr_schedule = tf.keras.callbacks.LearningRateScheduler(
         lambda epoch: 1e-6 * 10**(epoch / 30))
     savepath_ckpt ="gs://compvis_playground/face_sentiment/images/checkpoint/model-{epoch:02d}-{val_accuracy:.2f}.hdf5"
