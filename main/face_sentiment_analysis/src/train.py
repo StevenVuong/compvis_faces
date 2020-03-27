@@ -67,8 +67,6 @@ def main():
 
     # Set Callbacks here
     early_stopping = tf.keras.callbacks.EarlyStopping(patience=20, monitor='val_acc')
-    lr_schedule = tf.keras.callbacks.LearningRateScheduler(
-        lambda epoch: 1e-6 * 10**(epoch / 30))
     
     logger.info("Training Model")
     history = model.fit_generator(
@@ -78,7 +76,7 @@ def main():
         verbose = 1,
         validation_data = val_generator,
         validation_steps = val_generator.samples // BATCH_SIZE,
-        callbacks = [early_stopping, lr_schedule])
+        callbacks = [early_stopping])
 
     logger.info("Training Completed!")
 
