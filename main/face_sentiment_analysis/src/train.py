@@ -28,8 +28,6 @@ NUM_EPOCH = config.getint("emotion-classify", "NUM_EPOCH")
 WIDTH, HEIGHT = np.repeat(
     config.getint("emotion-classify", "IMG_WIDTH_HEIGHT"), 
     2)
-    
-model = cnn_model()
 
 
 def main():
@@ -64,8 +62,18 @@ def main():
     )
 
     logger.info("Loading TF CNN Model")
-    model = tf_model()
+    model = cnn_model()
 
+    # Set Callbacks here
+    early_stopping = tf.keras.callbacks.EarlyStopping(patience=20)
+    lr_schedule = tf.keras.callbacks.LearningRateScheduler(
+        lambda epoch: 1e-6 * 10**(epoch / 30))
+    savepath_ckpt ="gs://compvis_playground/face_sentiment/images/checkpoint/model-{epoch:02d}-{val_accuracy:.2f}.hdf5"
+    checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+        savepath_ckpt, monitor='val_accuracy', verbose=1,
+        save_best_only=False, save_weights_only=False,
+        save_frequency=1)
+    
     logger.info("Training Model")
     history = model.fit_generator(
         train_generator,
@@ -74,7 +82,7 @@ def main():
         verbose = 1,
         validation_data = val_generator,
         validation_steps = val_generator.samples // BATCH_SIZE,
-        callbacks = None)
+        callbacks = [early_stopping, lr_schedule, checkpoint_callback])
 
     logger.info("Training Completed!")
     results = model.evaluate_generator(
