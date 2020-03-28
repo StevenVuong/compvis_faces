@@ -38,7 +38,11 @@ def main():
 
     logger.info("Creating Train Datagen")
     train_datagen = ImageDataGenerator(
-        rescale=1./255)
+        rescale=1./255,
+        horizontal_flip=True,
+        rotation_range=10,
+        width_shift_range=.1,
+        height_shift_range=.1)
 
     logger.info("Creating Train Generator")
     train_generator = train_datagen.flow_from_directory(
@@ -88,12 +92,16 @@ def main():
     pd.DataFrame.from_dict(history.history).to_csv('./history.csv',index=False)
 
     logger.info("Exporting Model to GCS")
-    subprocesss.call([
-        "gsutil", "cp", "./model.h5", "gs://compvis_playground/face_sentiment/model.h5"
+    try:
+        subprocesss.call([
+            "gsutil", "cp", "./model.h5", "gs://compvis_playground/face_sentiment/model.h5"
+            ])
+        subprocess.call([
+            "gsutil", "cp", "./history.csv", "gs://compvis_playground/face_sentiment/history.csv"
         ])
-    subprocess.call([
-        "gsutil", "cp", "./history.csv", "gs://compvis_playground/face_sentiment/history.csv"
-    ])
+    except Exception as e: #Todo: Catch more precise exceptions
+        print("Could not Export model to GCS")
+        print(e)
 
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
