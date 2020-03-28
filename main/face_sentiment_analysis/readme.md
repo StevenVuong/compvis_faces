@@ -15,7 +15,7 @@ activation heat map layers in order to achieve this task.
 
 ### Quickstart
 -  `python3 -m pip install -r requirements.txt`
--  `python main.py`
+-  To train: `python ./src/train.py`
 
 
 ### References:

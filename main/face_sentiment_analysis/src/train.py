@@ -4,6 +4,7 @@ import numpy as np
 import configparser
 import os
 import pandas as pd
+import subprocess
 
 # Tensorflow Imports
 import tensorflow as tf
@@ -86,9 +87,13 @@ def main():
     logger.info("Saving History")
     pd.DataFrame.from_dict(history.history).to_csv('./history.csv',index=False)
 
-    model.save("gs://compvis_playground/face_sentiment/model.h5")
-    pd.DataFrame.from_dict(history.history).to_csv(
-        'gs://compvis_playground/face_sentiment/history.csv',index=False)
+    logger.info("Exporting Model to GCS")
+    subprocesss.call([
+        "gsutil", "cp", "./model.h5", "gs://compvis_playground/face_sentiment/model.h5"
+        ])
+    subprocess.call([
+        "gsutil", "cp", "./history.csv", "gs://compvis_playground/face_sentiment/history.csv"
+    ])
 
     logger.info("Evaluating Results")
     results = model.evaluate_generator(
@@ -96,7 +101,6 @@ def main():
         steps = val_generator.samples)
     logger.info('test loss, test acc:', results)
 
-    #  Savees modell; to test: save to GCS?
     #  Then have history plot in another function; Save Plot Image somewhere
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs

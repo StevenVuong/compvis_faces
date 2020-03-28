@@ -5,6 +5,7 @@ models/
 .idea
 .credentials
 __pycache__/
+*.h5
 
 # Related to frrozen model
 *.tar.gz
