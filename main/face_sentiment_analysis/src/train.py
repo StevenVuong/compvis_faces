@@ -95,17 +95,8 @@ def main():
         "gsutil", "cp", "./history.csv", "gs://compvis_playground/face_sentiment/history.csv"
     ])
 
-    logger.info("Evaluating Results")
-    results = model.evaluate_generator(
-        generator = val_generator,
-        steps = val_generator.samples)
-    logger.info('test loss, test acc:', results)
-
-    #  Then have history plot in another function; Save Plot Image somewhere
     #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
-    #  Todo: Add callbacks use config.yaml instead of ini
-    #  Be able to call tensorboard during training?
 
     print("Done")
 
