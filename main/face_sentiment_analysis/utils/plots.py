@@ -23,7 +23,7 @@ def read_csv_plot(csv_path: str, save_plot: bool = False):
     axs[0].set_ylabel('Accuracy')
     axs[0].set_xlabel('Epoch')
     axs[0].set_xticks(np.arange(1, (len(acc) + 1),(len(acc) / 10)))
-    axs[0].legend(['train'], loc='best')
+    axs[0].legend(['train', 'val'], loc='best')
 
     # Plots for loss
     axs[1].plot(loss)
@@ -33,7 +33,7 @@ def read_csv_plot(csv_path: str, save_plot: bool = False):
     axs[1].set_ylabel('Loss')
     axs[1].set_xlabel('Epoch')
     axs[1].set_xticks(np.arange(1, (len(loss) + 1), (len(loss) / 10)))
-    axs[1].legend(['train'], loc='best')
+    axs[1].legend(['train','val'], loc='best')
     
     if save_plot:
         fig.savefig('./plot.png')

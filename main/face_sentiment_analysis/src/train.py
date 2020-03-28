@@ -103,7 +103,6 @@ def main():
         print("Could not Export model to GCS")
         print(e)
 
-    #  And a predict class as well as evaluate function
     #  Then do some heatmap vissualisation to see how our CNN performs
 
     print("Done")

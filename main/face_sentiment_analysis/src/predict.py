@@ -25,6 +25,14 @@ WIDTH, HEIGHT = np.repeat(
     config.getint("emotion-classify", "IMG_WIDTH_HEIGHT"), 
     2)
 
+emotion_dict = {
+    0: "Angry", 
+    1: "Disgusted", 
+    2: "Fearful", 
+    3: "Happy", 
+    4: "Neutral", 
+    5: "Sad", 6: 
+    "Surprised"}
 
 def main():
 
@@ -51,7 +59,8 @@ def main():
         result = model.predict(img, batch_size=1)
         result = np.argmax(result)
 
-        print(result)
+        emotion = emotion_dict[result]
+        logger.info(f"{img_name} has emotion {emotion}")
 
     logger.info("Done")
 
